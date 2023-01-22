@@ -1,0 +1,10 @@
+.env*
+!.env.example
+
+.eslintrc.yaml
+
+memo.txt
+
+node_modules/
+
+configs/

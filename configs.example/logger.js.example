@@ -1,0 +1,37 @@
+module.exports = {
+  appenders: {
+    console: {
+      type: 'console',
+      layout: {type: 'coloured'},
+    },
+    reqResLogToAmqp: {
+      type: '@log4js-node/rabbitmq',
+      host: process.env.AMQP_HOST,
+      port: 5672,
+      username: process.env.AMQP_USER,
+      password: process.env.AMQP_PASSWORD,
+      routing_key: 'reqres',
+      exchange: process.env.AMQP_EXCHANGE,
+      mq_type: 'direct',
+      durable: true,
+    },
+    tryErrorLogToAmqp: {
+      type: '@log4js-node/rabbitmq',
+      host: process.env.AMQP_HOST,
+      port: 5672,
+      username: process.env.AMQP_USER,
+      password: process.env.AMQP_PASSWORD,
+      routing_key: 'tryerror',
+      exchange: process.env.AMQP_EXCHANGE,
+      mq_type: 'direct',
+      durable: true,
+    },
+  },
+  categories: {
+    default: {appenders: ['console'], level: 'all'},
+    accessLogCategory: {appenders: ['console'], level: 'info'},
+    reqResLogCategory: {appenders: ['reqResLogToAmqp'], level: 'info'},
+    tryerrorCategory: {appenders: ['console',
+      'tryErrorLogToAmqp'], level: 'error'},
+  },
+};
